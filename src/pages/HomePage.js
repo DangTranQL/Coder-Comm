@@ -14,6 +14,8 @@ import { capitalCase } from "change-case";
 import AddFriend from "../features/friend/AddFriend";
 import FriendRequests from "../features/friend/FriendRequests";
 import FriendList from "../features/friend/FriendList";
+import RequestWaiting from "../features/friend/RequestWaiting";
+import TimerIcon from "@mui/icons-material/Timer";
 
 const TabsWrapperStyle = styled("div")(({ theme }) => ({
   zIndex: 9,
@@ -59,6 +61,11 @@ function HomePage() {
       value: "add_friend",
       icon: <PersonAddRoundedIcon sx={{ fontSize: 24 }} />,
       component: <AddFriend />,
+    },
+    {
+      value: "wait_requests",
+      icon: <TimerIcon sx={{ fontSize: 24 }} />,
+      component: <RequestWaiting />,
     },
   ];
 
