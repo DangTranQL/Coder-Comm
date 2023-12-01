@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Link,
@@ -10,6 +10,12 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { fDate } from "../../utils/formatTime";
@@ -30,7 +36,14 @@ function PostCard({ post }) {
     setAnchorEl(event.currentTarget);
   };
 
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
   const handleClose = () => {
+    setOpen(false);
     setAnchorEl(null);
   };
 
@@ -79,8 +92,28 @@ function PostCard({ post }) {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={onDelete}>Delete</MenuItem>
+              <MenuItem onClick={handleClickOpen}>Delete</MenuItem>
               <MenuItem onClick={onEdit}>Edit</MenuItem>
+
+              <Dialog
+                open={open}
+                onClose={handleClose}
+              >
+                <DialogTitle>{"Confirm Delete"}</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Are you sure you want to delete this post?
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>
+                    Cancel
+                  </Button>
+                  <Button onClick={() => { onDelete(); handleClose(); }}>
+                    Confirm
+                  </Button>
+                </DialogActions>
+              </Dialog>
             </Menu>
           </IconButton>
         }

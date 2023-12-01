@@ -1,5 +1,5 @@
-import React from "react";
-import { Avatar, Box, Button, Paper, Stack, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Stack, Typography } from "@mui/material";
 import { fDate } from "../../utils/formatTime";
 import CommentReaction from "./CommentReaction";
 import { useDispatch } from "react-redux";
@@ -7,6 +7,17 @@ import { deleteComment } from "./commentSlice";
 
 function CommentCard({ comment }) {
   const dispatch = useDispatch();
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const onDelete = () => {
     dispatch(deleteComment(comment._id, comment.post));
   };
@@ -34,7 +45,27 @@ function CommentCard({ comment }) {
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
           <CommentReaction comment={comment} />
         </Box>
-        <Button onClick={onDelete}>DELETE</Button>
+        <Button onClick={handleClickOpen}>DELETE</Button>
+
+        <Dialog
+          open={open}
+          onClose={handleClose}
+        >
+          <DialogTitle>{"Confirm Delete"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Are you sure you want to delete this comment?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button onClick={() => { onDelete(); handleClose(); }}>
+              Confirm
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Paper>
     </Stack>
   );
