@@ -1,12 +1,19 @@
 import React from "react";
-import { Avatar, Box, Paper, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Button, Paper, Stack, Typography } from "@mui/material";
 import { fDate } from "../../utils/formatTime";
 import CommentReaction from "./CommentReaction";
+import { useDispatch } from "react-redux";
+import { deleteComment } from "./commentSlice";
 
 function CommentCard({ comment }) {
+  const dispatch = useDispatch();
+  const onDelete = () => {
+    dispatch(deleteComment(comment._id, comment.post));
+  };
+
   return (
     <Stack direction="row" spacing={2}>
-      <Avatar alt={comment.author?.name} src={comment.author?.avatarUrl} />
+      <Avatar alt={comment?.author?.name} src={comment?.author?.avatarUrl} />
       <Paper sx={{ p: 1.5, flexGrow: 1, bgcolor: "background.neutral" }}>
         <Stack
           direction="row"
@@ -15,18 +22,19 @@ function CommentCard({ comment }) {
           sx={{ mb: 0.5 }}
         >
           <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-            {comment.author?.name}
+            {comment?.author?.name}
           </Typography>
           <Typography variant="caption" sx={{ color: "text.disabled" }}>
-            {fDate(comment.createdAt)}
+            {fDate(comment?.createdAt)}
           </Typography>
         </Stack>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          {comment.content}
+          {comment?.content}
         </Typography>
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
           <CommentReaction comment={comment} />
         </Box>
+        <Button onClick={onDelete}>DELETE</Button>
       </Paper>
     </Stack>
   );
