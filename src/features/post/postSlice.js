@@ -65,7 +65,7 @@ const slice = createSlice({
       state.isLoading = false;
       state.error = null;
       const editPost = action.payload;
-      state.postsById[editPost._id] = editPost.content;
+      state.postsById[editPost._id] = editPost;
     },
 
     sendPostReactionSuccess(state, action) {
@@ -159,10 +159,10 @@ export const editPost =
     dispatch(slice.actions.startLoading());
     try {
       // upload image to cloudinary
-      console.log(_id, content, image)
+      const newContent = prompt('Enter new content:', content);
       const imageUrl = await cloudinaryUpload(image);
       const response = await apiService.put(`/posts/${_id}`, {
-        content,
+        content: newContent,
         image: imageUrl,
       });
       dispatch(slice.actions.editPostSuccess(response.data));

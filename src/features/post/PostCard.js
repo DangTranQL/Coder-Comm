@@ -68,7 +68,7 @@ function PostCard({ post }) {
             color="text.primary"
             component={RouterLink}
             sx={{ fontWeight: 600 }}
-            to={`/user/${post.author._id}`}
+            to={`/user/${post?.author?._id}`}
           >
             {post?.author?.name}
           </Link>
