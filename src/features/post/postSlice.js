@@ -138,7 +138,7 @@ export const deletePost =
   async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      console.log("PostID", postId)
+      console.log("PostID", postId);
       const response = await apiService.delete(`/posts/${postId}`);
       dispatch(slice.actions.deletePostSuccess(response.data));
       toast.success("Delete successfully");

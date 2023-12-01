@@ -58,6 +58,7 @@ function PostCard({ post }) {
   };
 
   const onSubmit = () => {
+    console.log("onSubmit", post._id);
     dispatch(deletePost(post._id));
   };
 
