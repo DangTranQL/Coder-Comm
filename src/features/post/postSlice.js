@@ -154,12 +154,11 @@ export const deletePost =
 };
 
 export const editPost =
-  ({_id, content, image}) =>
+  ({_id, image}, newContent) =>
   async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
       // upload image to cloudinary
-      const newContent = prompt('Enter new content:', content);
       const imageUrl = await cloudinaryUpload(image);
       const response = await apiService.put(`/posts/${_id}`, {
         content: newContent,

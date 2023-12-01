@@ -16,6 +16,7 @@ import {
   DialogContentText,
   DialogActions,
   Button,
+  TextField,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { fDate } from "../../utils/formatTime";
@@ -37,22 +38,37 @@ function PostCard({ post }) {
   };
 
   const [open, setOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [newContent, setNewContent] = useState('');
 
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+  const handleClickOpenEdit = () => { 
+    setOpenEdit(true); 
+  }
 
   const handleClose = () => {
     setOpen(false);
     setAnchorEl(null);
   };
 
+  const handleCloseEdit = () => {
+    setOpenEdit(false);
+    setAnchorEl(null);
+  }
+
   const onDelete = () => {
     dispatch(deletePost(post._id));
   };
 
-  const onEdit = () => {
-    dispatch(editPost(post))
+  const handleInputChange = (e) => {
+    setNewContent(e.target.value);
+  };
+
+  const onEdit = (newContent) => {
+    dispatch(editPost(post, newContent))
   }
 
   return (
@@ -93,7 +109,7 @@ function PostCard({ post }) {
               onClose={handleClose}
             >
               <MenuItem onClick={handleClickOpen}>Delete</MenuItem>
-              <MenuItem onClick={onEdit}>Edit</MenuItem>
+              <MenuItem onClick={handleClickOpenEdit}>Edit</MenuItem>
 
               <Dialog
                 open={open}
@@ -113,6 +129,28 @@ function PostCard({ post }) {
                     Confirm
                   </Button>
                 </DialogActions>
+              </Dialog>
+
+              <Dialog
+                open={openEdit}
+                onClose={handleCloseEdit}
+              >
+                <DialogTitle>{"Edit Post"}</DialogTitle>
+                <DialogContent>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    label="New Content"
+                    type="text"
+                    multiline
+                    minRows={5}
+                    value={newContent}
+                    onChange={handleInputChange}
+                  />
+                  <Button onClick={() => { onEdit(newContent); handleCloseEdit(); }}>
+                    Submit
+                  </Button>
+                </DialogContent>
               </Dialog>
             </Menu>
           </IconButton>
