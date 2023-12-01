@@ -18,33 +18,10 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PostReaction from "./PostReaction";
 import CommentForm from "../comment/CommentForm";
 import CommentList from "../comment/CommentList";
-import { deletePost } from "./postSlice";
+import { deletePost, editPost } from "./postSlice";
 import { useDispatch } from "react-redux";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
 
 function PostCard({ post }) {
-  // const yupSchema = Yup.object().shape({
-  //   content: Yup.string().required("Content is required"),
-  // });
-
-  // const defaultValues = {
-  //   content: "",
-  //   image: null,
-  // };
-
-  // const methods = useForm({
-  //   resolver: yupResolver(yupSchema),
-  //   defaultValues,
-  // });
-
-  // const {
-  //   handleSubmit,
-  //   reset,
-  //   setValue,
-  //   formState: { isSubmitting },
-  // } = methods;
   const dispatch = useDispatch();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -57,10 +34,13 @@ function PostCard({ post }) {
     setAnchorEl(null);
   };
 
-  const onSubmit = () => {
-    console.log("onSubmit", post._id);
+  const onDelete = () => {
     dispatch(deletePost(post._id));
   };
+
+  const onEdit = () => {
+    dispatch(editPost(post))
+  }
 
   return (
     <Card>
@@ -99,8 +79,8 @@ function PostCard({ post }) {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={onSubmit}>Delete</MenuItem>
-              <MenuItem onClick={handleClose}>Edit</MenuItem>
+              <MenuItem onClick={onDelete}>Delete</MenuItem>
+              <MenuItem onClick={onEdit}>Edit</MenuItem>
             </Menu>
           </IconButton>
         }
